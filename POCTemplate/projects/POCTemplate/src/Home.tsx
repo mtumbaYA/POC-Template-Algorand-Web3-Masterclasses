@@ -1,9 +1,9 @@
-// src/components/Home.tsx
 import { useWallet } from '@txnlab/use-wallet-react'
 import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import Transact from './components/Transact'
 import NFTmint from './components/NFTmint'
+import Tokenmint from './components/Tokenmint' // ✅ Import new component
 
 interface HomeProps {}
 
@@ -11,6 +11,7 @@ const Home: React.FC<HomeProps> = () => {
   const [openWalletModal, setOpenWalletModal] = useState(false)
   const [openPaymentModal, setOpenPaymentModal] = useState(false)
   const [openMintModal, setOpenMintModal] = useState(false)
+  const [openTokenModal, setOpenTokenModal] = useState(false) // ✅ New state for token modal
 
   const { activeAddress } = useWallet()
 
@@ -25,6 +26,7 @@ const Home: React.FC<HomeProps> = () => {
         </p>
 
         <div className="flex flex-col gap-4">
+          {/* Connect Wallet Button */}
           <button
             className="btn btn-primary"
             onClick={() => setOpenWalletModal(true)}
@@ -32,6 +34,7 @@ const Home: React.FC<HomeProps> = () => {
             Connect Wallet
           </button>
 
+          {/* Show only if wallet is connected */}
           {activeAddress && (
             <>
               <button
@@ -46,6 +49,14 @@ const Home: React.FC<HomeProps> = () => {
                 onClick={() => setOpenMintModal(true)}
               >
                 Mint MasterPass NFT
+              </button>
+
+              {/* ✅ New Create Token Button */}
+              <button
+                className="btn btn-info"
+                onClick={() => setOpenTokenModal(true)}
+              >
+                Create Token (ASA)
               </button>
             </>
           )}
@@ -63,6 +74,10 @@ const Home: React.FC<HomeProps> = () => {
         <NFTmint
           openModal={openMintModal}
           setModalState={setOpenMintModal}
+        />
+        <Tokenmint
+          openModal={openTokenModal}
+          setModalState={setOpenTokenModal}
         />
       </div>
     </div>
